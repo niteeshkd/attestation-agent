@@ -31,10 +31,10 @@ impl Attester for SnpAttester {
         report_data_bin.extend([0; 16]);
 
         let mut firmware = Firmware::open()?;
-        let mut report_request = SnpReportReq::new(Some(report_data_bin.as_slice().try_into()?), 0);
+        let report_request = SnpReportReq::new(Some(report_data_bin.as_slice().try_into()?), 0);
 
         let (report, certs) = firmware
-            .snp_get_ext_report(None, &mut report_request)
+            .snp_get_ext_report(None, report_request)
             .map_err(|e| anyhow!("failed to get attestation report: {:?}", e))?;
 
         let evidence = SnpEvidence {
